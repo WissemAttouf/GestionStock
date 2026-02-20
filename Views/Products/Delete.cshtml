@@ -1,0 +1,66 @@
+@model FirstProject.Models.Product
+
+@{
+    ViewData["Title"] = "Supprimer un produit";
+}
+
+<div class="mb-5 text-center" data-aos="fade-down">
+    <h1 class="display-4 fw-bold text-danger">
+        <i class="bi bi-exclamation-triangle"></i>
+        Supprimer @Model.Name
+    </h1>
+    <p class="text-muted">Cette action est irréversible</p>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card border-0 shadow-lg border-danger" data-aos="zoom-in">
+            <div class="card-header bg-danger text-white py-4">
+                <h4 class="mb-0"><i class="bi bi-exclamation-circle"></i> Confirmation requise</h4>
+            </div>
+            <div class="card-body p-5">
+                <div class="text-center mb-5">
+                    <i class="bi bi-box text-danger" style="font-size: 5rem;"></i>
+                    <h3 class="mt-3">@Model.Name</h3>
+                </div>
+                
+                <div class="alert alert-danger bg-opacity-10 border-0">
+                    <p class="mb-0"><strong>⚠️ Attention :</strong> Vous êtes sur le point de supprimer ce produit. Cette action est définitive et ne peut pas être annulée.</p>
+                </div>
+                
+                <div class="row g-4 mb-5">
+                    <div class="col-md-6">
+                        <div class="card border-0 bg-light">
+                            <div class="card-body text-center">
+                                <small class="text-muted">Prix</small>
+                                <h3 class="text-success">@Model.Price.ToString("C")</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card border-0 bg-light">
+                            <div class="card-body text-center">
+                                <small class="text-muted">Quantité</small>
+                                <h3>@Model.Quantity</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <form action="/Products/Delete/@Model.Id" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="Id" value="@Model.Id" />
+                    
+                    <div class="d-flex gap-3">
+                        <button type="submit" class="btn btn-danger btn-lg flex-grow-1 py-3">
+                            <i class="bi bi-trash"></i> Oui, supprimer définitivement
+                        </button>
+                        <a href="/Products" class="btn btn-outline-secondary btn-lg px-5 py-3">
+                            <i class="bi bi-arrow-left"></i> Non, annuler
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,271 @@
+@model IEnumerable<FirstProject.Models.Product>
+
+@{
+    ViewData["Title"] = "Gestion de Stock";
+    int totalProduits = Model?.Count() ?? 0;
+    decimal valeurTotale = Model?.Sum(p => p.Price * p.Quantity) ?? 0;
+    int totalQuantite = Model?.Sum(p => p.Quantity) ?? 0;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .main-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 2rem;
+            margin: 2rem auto;
+        }
+        .stat-card {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            transition: transform 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .stat-card.success {
+            background: linear-gradient(45deg, #28a745, #20c997);
+        }
+        .stat-card.warning {
+            background: linear-gradient(45deg, #ffc107, #fd7e14);
+        }
+        .btn-custom {
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .table thead th {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+            border: none;
+        }
+        .badge-stock {
+            padding: 8px 12px;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+        .alert-custom {
+            border-radius: 10px;
+            border-left: 5px solid;
+            animation: slideIn 0.5s;
+        }
+        @@keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-container">
+            <!-- En-tête -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="display-5 fw-bold">
+                    <i class="bi bi-boxes text-primary"></i> 
+                    Gestion de Stock
+                </h1>
+                <a href="/Products/Create" class="btn btn-success btn-custom">
+                    <i class="bi bi-plus-circle"></i> Nouveau produit
+                </a>
+            </div>
+
+            <!-- Messages -->
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-custom alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i> @TempData["Success"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-custom alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i> @TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            <!-- Statistiques -->
+            <div class="row mb-4">
+                <div class="col-md-4 mb-3">
+                    <div class="stat-card text-center">
+                        <i class="bi bi-box display-4"></i>
+                        <h3 class="mt-2">@totalProduits</h3>
+                        <p class="mb-0">Total Produits</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="stat-card success text-center">
+                        <i class="bi bi-currency-euro display-4"></i>
+                        <h3 class="mt-2">@valeurTotale.ToString("C")</h3>
+                        <p class="mb-0">Valeur Totale</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="stat-card warning text-center">
+                        <i class="bi bi-cart display-4"></i>
+                        <h3 class="mt-2">@totalQuantite</h3>
+                        <p class="mb-0">Articles en Stock</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Barre de recherche -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <form method="get" class="row g-3">
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <span class="input-group-text bg-white">
+                                    <i class="bi bi-search text-primary"></i>
+                                </span>
+                                <input type="text" name="searchString" class="form-control" 
+                                       placeholder="Rechercher par nom, description ou catégorie..." 
+                                       value="@ViewBag.CurrentFilter">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary w-100 btn-custom">
+                                <i class="bi bi-search"></i> Rechercher
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Liste des produits -->
+            @if (Model == null || !Model.Any())
+            {
+                <div class="text-center py-5">
+                    <i class="bi bi-emoji-frown display-1 text-muted"></i>
+                    <h3 class="mt-3">Aucun produit trouvé</h3>
+                    <p class="text-muted">Commencez par ajouter votre premier produit !</p>
+                    <a href="/Products/Create" class="btn btn-success btn-custom">
+                        <i class="bi bi-plus-circle"></i> Ajouter un produit
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>Description</th>
+                                <th class="text-end">Prix</th>
+                                <th class="text-end">Quantité</th>
+                                <th>Catégorie</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td><span class="badge bg-secondary">@item.Id</span></td>
+                                    <td class="fw-bold">@item.Name</td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.Description))
+                                        {
+                                            @(item.Description.Length > 50 ? item.Description.Substring(0, 50) + "..." : item.Description)
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted fst-italic">Non renseignée</span>
+                                        }
+                                    </td>
+                                    <td class="text-end text-success fw-bold">@item.Price.ToString("C")</td>
+                                    <td class="text-end">
+                                        @if (item.Quantity <= 5)
+                                        {
+                                            <span class="badge-stock bg-danger text-white">⚠️ @item.Quantity</span>
+                                        }
+                                        else if (item.Quantity <= 10)
+                                        {
+                                            <span class="badge-stock bg-warning text-dark">📦 @item.Quantity</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge-stock bg-success text-white">✅ @item.Quantity</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.Category))
+                                        {
+                                            <span class="badge bg-info text-white">@item.Category</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted fst-italic">-</span>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="btn-group" role="group">
+                                            <a href="/Products/Details/@item.Id" class="btn btn-sm btn-outline-info" title="Détails">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <a href="/Products/Edit/@item.Id" class="btn btn-sm btn-outline-warning" title="Modifier">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <a href="/Products/Delete/@item.Id" class="btn btn-sm btn-outline-danger" title="Supprimer">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="text-muted mt-3">
+                    <i class="bi bi-info-circle"></i> 
+                    Affichage de @Model.Count() produit(s) sur @totalProduits total
+                </div>
+            }
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Auto-fermeture des alertes
+        setTimeout(function() {
+            document.querySelectorAll('.alert').forEach(function(alert) {
+                var bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 5000);
+    </script>
+</body>
+</html>

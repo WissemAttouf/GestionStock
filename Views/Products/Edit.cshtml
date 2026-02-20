@@ -1,0 +1,107 @@
+@model FirstProject.Models.Product
+
+@{
+    ViewData["Title"] = "Modifier un produit";
+}
+
+<div class="mb-5" data-aos="fade-down">
+    <h1 class="display-4 fw-bold">
+        <i class="bi bi-pencil text-warning"></i>
+        <span style="background: linear-gradient(45deg, #ffc107, #fd7e14); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            Modifier @Model.Name
+        </span>
+    </h1>
+    <p class="text-muted">Modifiez les informations du produit</p>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card border-0 shadow-lg" data-aos="fade-up" data-aos-delay="200">
+            <div class="card-header bg-transparent border-0 pt-4">
+                <div class="d-flex align-items-center">
+                    <div class="stats-icon me-3">
+                        <i class="bi bi-pencil-square"></i>
+                    </div>
+                    <div>
+                        <h4 class="mb-0">Modifier les informations</h4>
+                        <small class="text-muted">Modifiez les champs nécessaires</small>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <form action="/Products/Edit/@Model.Id" method="post">
+                    @Html.AntiForgeryToken()
+                    
+                    <input type="hidden" name="Id" value="@Model.Id" />
+                    <input type="hidden" name="CreatedAt" value="@Model.CreatedAt" />
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Nom du produit</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-0">
+                                <i class="bi bi-tag text-primary"></i>
+                            </span>
+                            <input type="text" name="Name" class="form-control border-0 bg-light" 
+                                   value="@Model.Name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Description</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-0">
+                                <i class="bi bi-text-paragraph text-primary"></i>
+                            </span>
+                            <textarea name="Description" class="form-control border-0 bg-light" 
+                                      rows="4">@Model.Description</textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label fw-bold">Prix</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-0">
+                                    <i class="bi bi-currency-euro text-primary"></i>
+                                </span>
+                                <input type="number" name="Price" step="0.01" class="form-control border-0 bg-light" 
+                                       value="@Model.Price" required>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label fw-bold">Quantité</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-0">
+                                    <i class="bi bi-hash text-primary"></i>
+                                </span>
+                                <input type="number" name="Quantity" class="form-control border-0 bg-light" 
+                                       value="@Model.Quantity" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Catégorie</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-0">
+                                <i class="bi bi-folder text-primary"></i>
+                            </span>
+                            <input type="text" name="Category" class="form-control border-0 bg-light" 
+                                   value="@Model.Category">
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex gap-3 mt-5">
+                        <button type="submit" class="btn btn-warning btn-lg flex-grow-1 py-3 fw-bold">
+                            <i class="bi bi-save"></i> Enregistrer
+                        </button>
+                        <a href="/Products" class="btn btn-outline-secondary px-5 py-3">
+                            <i class="bi bi-x-circle"></i> Annuler
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+@{
+    ViewData["Title"] = "Accueil";
+}
+
+<div class="text-center">
+    <h1 class="display-4 mt-5">
+        <i class="bi bi-box-seam text-primary"></i> 
+        Gestion de Stock
+    </h1>
+    <p class="lead mb-5">Application de gestion des produits</p>
+
+    <div class="row mt-5">
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-list-ul text-primary" style="font-size: 3rem;"></i>
+                    <h5 class="card-title mt-3">Liste des produits</h5>
+                    <p class="card-text">Consultez et gérez tous vos produits</p>
+                    <a asp-controller="Products" asp-action="Index" class="btn btn-primary">
+                        Voir les produits
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-plus-circle text-success" style="font-size: 3rem;"></i>
+                    <h5 class="card-title mt-3">Ajouter un produit</h5>
+                    <p class="card-text">Ajoutez un nouveau produit au stock</p>
+                    <a asp-controller="Products" asp-action="Create" class="btn btn-success">
+                        Nouveau produit
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="bi bi-graph-up text-warning" style="font-size: 3rem;"></i>
+                    <h5 class="card-title mt-3">Statistiques</h5>
+                    <p class="card-text">Visualisez les statistiques du stock</p>
+                    <a asp-controller="Products" asp-action="Index" class="btn btn-warning">
+                        Voir les stats
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

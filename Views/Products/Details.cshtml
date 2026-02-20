@@ -1,0 +1,110 @@
+@model FirstProject.Models.Product
+
+@{
+    ViewData["Title"] = "Détails du produit";
+}
+
+<div class="mb-5" data-aos="fade-down">
+    <h1 class="display-4 fw-bold">
+        <i class="bi bi-info-circle text-info"></i>
+        <span style="background: linear-gradient(45deg, #17a2b8, #6610f2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            Détails du produit
+        </span>
+    </h1>
+    <p class="text-muted">Informations complètes sur @Model.Name</p>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card border-0 shadow-lg" data-aos="fade-up">
+            <div class="card-header bg-gradient bg-primary text-white py-4">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-box display-6 me-3"></i>
+                    <div>
+                        <h2 class="mb-0">@Model.Name</h2>
+                        <small>ID: @Model.Id</small>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-5">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-5">
+                            <h5 class="text-primary mb-3">
+                                <i class="bi bi-info-circle"></i> Informations générales
+                            </h5>
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td class="fw-bold">Description :</td>
+                                    <td>@(string.IsNullOrEmpty(Model.Description) ? "Aucune description" : Model.Description)</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Catégorie :</td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(Model.Category))
+                                        {
+                                            <span class="badge bg-info text-white px-3 py-2">@Model.Category</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">Non catégorisé</span>
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Date d'ajout :</td>
+                                    <td>@Model.CreatedAt.ToString("dddd dd MMMM yyyy à HH:mm")</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="mb-5">
+                            <h5 class="text-primary mb-3">
+                                <i class="bi bi-graph-up"></i> Informations financières
+                            </h5>
+                            <div class="row g-3">
+                                <div class="col-6">
+                                    <div class="card border-0 bg-success bg-opacity-10">
+                                        <div class="card-body text-center">
+                                            <small class="text-success">Prix unitaire</small>
+                                            <h3 class="text-success">@Model.Price.ToString("C")</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="card border-0 bg-info bg-opacity-10">
+                                        <div class="card-body text-center">
+                                            <small class="text-info">Quantité</small>
+                                            <h3 class="text-info">@Model.Quantity</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="card border-0 bg-primary bg-opacity-10">
+                                        <div class="card-body text-center">
+                                            <small class="text-primary">Valeur totale</small>
+                                            <h2 class="text-primary">@((Model.Price * Model.Quantity).ToString("C"))</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-top pt-4 mt-4">
+                    <div class="d-flex gap-3 justify-content-center">
+                        <a href="/Products/Edit/@Model.Id" class="btn btn-warning btn-lg px-5 py-3">
+                            <i class="bi bi-pencil"></i> Modifier
+                        </a>
+                        <a href="/Products" class="btn btn-outline-secondary btn-lg px-5 py-3">
+                            <i class="bi bi-arrow-left"></i> Retour
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

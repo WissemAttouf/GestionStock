@@ -1,0 +1,69 @@
+@model FirstProject.Models.Product
+
+@{
+    ViewData["Title"] = "Ajouter un produit";
+}
+
+<div class="mb-4">
+    <h1>
+        <i class="bi bi-plus-circle text-success"></i> 
+        Ajouter un nouveau produit
+    </h1>
+    <p class="text-muted">Remplissez le formulaire ci-dessous pour ajouter un produit</p>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="bi bi-box"></i> Informations du produit</h5>
+            </div>
+            <div class="card-body">
+                <form action="/Products/Create" method="post">
+                    @Html.AntiForgeryToken()
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Nom du produit <span class="text-danger">*</span></label>
+                        <input type="text" name="Name" class="form-control" 
+                               placeholder="Ex: Ordinateur Portable HP" required />
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Description (optionnelle)</label>
+                        <textarea name="Description" class="form-control" 
+                                  rows="4" placeholder="Description détaillée du produit..."></textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Prix (€) <span class="text-danger">*</span></label>
+                            <input type="number" name="Price" step="0.01" class="form-control" 
+                                   placeholder="0.00" required />
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Quantité <span class="text-danger">*</span></label>
+                            <input type="number" name="Quantity" class="form-control" 
+                                   placeholder="0" required />
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Catégorie (optionnelle)</label>
+                        <input type="text" name="Category" class="form-control" 
+                               placeholder="Ex: Informatique, Accessoires..." />
+                    </div>
+                    
+                    <div class="d-flex gap-3">
+                        <button type="submit" class="btn btn-success btn-lg flex-grow-1">
+                            <i class="bi bi-check-circle"></i> Créer le produit
+                        </button>
+                        <a href="/Products" class="btn btn-outline-secondary btn-lg">
+                            <i class="bi bi-x-circle"></i> Annuler
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
