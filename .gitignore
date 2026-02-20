@@ -1,0 +1,27 @@
+## Fichiers de build
+bin/
+obj/
+Debug/
+Release/
+
+## Fichiers de base de données
+*.db
+*.db-shm
+*.db-wal
+
+## Fichiers de configuration personnels
+appsettings.Development.json
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+## Dossiers IDE
+.vs/
+.vscode/
+.idea/
+
+## Fichiers temporaires
+*.tmp
+*.log
+*.cache
