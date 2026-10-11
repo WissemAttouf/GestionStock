@@ -21,36 +21,37 @@
             <div class="card-body">
                 <form action="/Products/Create" method="post">
                     @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger mb-3" })
                     
                     <div class="mb-3">
                         <label class="form-label fw-bold">Nom du produit <span class="text-danger">*</span></label>
-                        <input type="text" name="Name" class="form-control" 
+                        <input type="text" name="Name" maxlength="100" minlength="2" class="form-control" 
                                placeholder="Ex: Ordinateur Portable HP" required />
                     </div>
                     
                     <div class="mb-3">
                         <label class="form-label fw-bold">Description (optionnelle)</label>
-                        <textarea name="Description" class="form-control" 
+                        <textarea name="Description" maxlength="1000" class="form-control" 
                                   rows="4" placeholder="Description détaillée du produit..."></textarea>
                     </div>
                     
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">Prix (€) <span class="text-danger">*</span></label>
-                            <input type="number" name="Price" step="0.01" class="form-control" 
+                            <input type="number" name="Price" min="0.01" max="999999999.99" step="0.01" class="form-control" 
                                    placeholder="0.00" required />
                         </div>
                         
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">Quantité <span class="text-danger">*</span></label>
-                            <input type="number" name="Quantity" class="form-control" 
+                            <input type="number" name="Quantity" min="0" max="1000000000" class="form-control" 
                                    placeholder="0" required />
                         </div>
                     </div>
                     
                     <div class="mb-4">
                         <label class="form-label fw-bold">Catégorie (optionnelle)</label>
-                        <input type="text" name="Category" class="form-control" 
+                        <input type="text" name="Category" maxlength="80" class="form-control" 
                                placeholder="Ex: Informatique, Accessoires..." />
                     </div>
                     
