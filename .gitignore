@@ -1,27 +1,25 @@
-## Fichiers de build
+# .NET build output
 bin/
 obj/
-Debug/
-Release/
+**/bin/
+**/obj/
 
-## Fichiers de base de données
+# IDE and user-specific files
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Local databases and SQLite sidecar files
 *.db
 *.db-shm
 *.db-wal
 
-## Fichiers de configuration personnels
+# Local settings, logs, and temporary files
 appsettings.Development.json
-*.user
-*.userosscache
-*.suo
-*.userprefs
-
-## Dossiers IDE
-.vs/
-.vscode/
-.idea/
-
-## Fichiers temporaires
 *.tmp
 *.log
 *.cache
