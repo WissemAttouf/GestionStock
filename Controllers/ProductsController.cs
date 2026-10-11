@@ -1,10 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using FirstProject.dta;
 using FirstProject.Models;
-using System.Linq;
-using System.Threading.Tasks;
-using System;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FirstProject.Controllers
 {
@@ -18,174 +15,136 @@ namespace FirstProject.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string? searchString)
         {
-            try
+            ViewBag.CurrentFilter = searchString;
+
+            IQueryable<Product> query = _context.Products
+                .AsNoTracking()
+                .OrderByDescending(p => p.Id);
+
+            if (!string.IsNullOrWhiteSpace(searchString))
             {
-                ViewBag.CurrentFilter = searchString;
-                
-                // Récupérer tous les produits triés par ID
-                var products = await _context.Products
-                    .OrderByDescending(p => p.Id)  // Les plus récents d'abord
-                    .ToListAsync();
-                
-                // Filtre de recherche
-                if (!string.IsNullOrEmpty(searchString))
-                {
-                    products = products.Where(p => 
-                        (!string.IsNullOrEmpty(p.Name) && p.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)) ||
-                        (!string.IsNullOrEmpty(p.Description) && p.Description.Contains(searchString, StringComparison.OrdinalIgnoreCase)) ||
-                        (!string.IsNullOrEmpty(p.Category) && p.Category.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-                    ).ToList();
-                }
-                
-                return View(products);
+                var term = searchString.Trim();
+                query = query.Where(p =>
+                    EF.Functions.Like(p.Name, $"%{term}%") ||
+                    (p.Description != null && EF.Functions.Like(p.Description, $"%{term}%")) ||
+                    (p.Category != null && EF.Functions.Like(p.Category, $"%{term}%")));
             }
-            catch (Exception ex)
-            {
-                TempData["Error"] = "Erreur de chargement : " + ex.Message;
-                return View(new List<Product>());
-            }
+
+            return View(await query.ToListAsync());
         }
 
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (id is null || id <= 0)
             {
                 return NotFound();
             }
 
             var product = await _context.Products
-                .FirstOrDefaultAsync(m => m.Id == id);
-            
-            if (product == null)
-            {
-                return NotFound();
-            }
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.Id == id);
 
-            return View(product);
+            return product is null ? NotFound() : View(product);
         }
 
         // GET: Products/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
         // POST: Products/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Product product)
+        public async Task<IActionResult> Create(
+            [Bind("Name,Description,Price,Quantity,Category")] Product product)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                // Supprimer les erreurs de validation pour CreatedAt
-                if (ModelState.ContainsKey("CreatedAt"))
-                {
-                    ModelState["CreatedAt"].Errors.Clear();
-                    ModelState["CreatedAt"].ValidationState = Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Valid;
-                }
+                return View(product);
+            }
 
-                if (ModelState.IsValid)
-                {
-                    product.CreatedAt = DateTime.Now;
-                    _context.Add(product);
-                    await _context.SaveChangesAsync();
-                    
-                    TempData["Success"] = $"✅ Produit '{product.Name}' créé avec succès !";
-                    return RedirectToAction(nameof(Index));
-                }
-                
-                // Afficher les erreurs de validation
-                foreach (var key in ModelState.Keys)
-                {
-                    var state = ModelState[key];
-                    if (state.Errors.Any())
-                    {
-                        ModelState.AddModelError(key, state.Errors.First().ErrorMessage);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", "❌ Erreur lors de la création : " + ex.Message);
-            }
-            
-            return View(product);
+            product.Name = product.Name.Trim();
+            product.Description = string.IsNullOrWhiteSpace(product.Description)
+                ? null
+                : product.Description.Trim();
+            product.Category = string.IsNullOrWhiteSpace(product.Category)
+                ? null
+                : product.Category.Trim();
+            product.CreatedAt = DateTime.Now;
+
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = $"Produit « {product.Name} » créé avec succès.";
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (id is null || id <= 0)
             {
                 return NotFound();
             }
 
             var product = await _context.Products.FindAsync(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            return View(product);
+            return product is null ? NotFound() : View(product);
         }
 
         // POST: Products/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Product product)
+        public async Task<IActionResult> Edit(
+            int id,
+            [Bind("Id,Name,Description,Price,Quantity,Category")] Product input)
         {
-            if (id != product.Id)
+            if (id != input.Id)
             {
                 return NotFound();
             }
 
-            try
+            if (!ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
-                    TempData["Success"] = $"✅ Produit '{product.Name}' modifié avec succès !";
-                    return RedirectToAction(nameof(Index));
-                }
+                return View(input);
             }
-            catch (DbUpdateConcurrencyException)
+
+            var product = await _context.Products.FindAsync(id);
+            if (product is null)
             {
-                if (!ProductExists(product.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", "❌ Erreur lors de la modification : " + ex.Message);
-            }
-            
-            return View(product);
+
+            // Update only editable fields; preserve Id and CreatedAt from the database.
+            product.Name = input.Name.Trim();
+            product.Description = string.IsNullOrWhiteSpace(input.Description)
+                ? null
+                : input.Description.Trim();
+            product.Price = input.Price;
+            product.Quantity = input.Quantity;
+            product.Category = string.IsNullOrWhiteSpace(input.Category)
+                ? null
+                : input.Category.Trim();
+
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = $"Produit « {product.Name} » modifié avec succès.";
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Products/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            if (id is null || id <= 0)
             {
                 return NotFound();
             }
 
             var product = await _context.Products
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.Id == id);
 
-            return View(product);
+            return product is null ? NotFound() : View(product);
         }
 
         // POST: Products/Delete/5
@@ -193,28 +152,23 @@ namespace FirstProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            try
+            if (id <= 0)
             {
-                var product = await _context.Products.FindAsync(id);
-                if (product != null)
-                {
-                    string productName = product.Name;
-                    _context.Products.Remove(product);
-                    await _context.SaveChangesAsync();
-                    TempData["Success"] = $"✅ Produit '{productName}' supprimé avec succès !";
-                }
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            catch (Exception ex)
-            {
-                TempData["Error"] = "❌ Erreur lors de la suppression : " + ex.Message;
-                return RedirectToAction(nameof(Index));
-            }
-        }
 
-        private bool ProductExists(int id)
-        {
-            return _context.Products.Any(e => e.Id == id);
+            var product = await _context.Products.FindAsync(id);
+            if (product is null)
+            {
+                return NotFound();
+            }
+
+            var productName = product.Name;
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = $"Produit « {productName} » supprimé avec succès.";
+            return RedirectToAction(nameof(Index));
         }
     }
 }
