@@ -3,6 +3,8 @@ using FirstProject.dta;
 using FirstProject.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 // Utilise SQLite (pas besoin de serveur, ça crée un fichier .db)
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
