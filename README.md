@@ -164,3 +164,13 @@ Issues and improvements are welcome. Please describe the change, the expected be
 ## License
 
 No license file is currently visible in the repository. Until a license is added, do not assume that the project is available for unrestricted reuse or redistribution.
+## Screenshots
+
+### Stock dashboard and product list
+
+![StockMaster Pro dashboard](docs/images/dashboard.png)
+
+### Add a new product
+
+![Add product form](docs/images/ajouter-produit.png)
+
