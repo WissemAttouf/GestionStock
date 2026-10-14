@@ -23,3 +23,15 @@ appsettings.Development.json
 *.tmp
 *.log
 *.cache
+
+# Local secrets and environment configuration
+.env
+.env.*
+!.env.example
+appsettings.Local.json
+appsettings.*.local.json
+secrets.json
+*.pem
+*.key
+*.pfx
+*.p12
