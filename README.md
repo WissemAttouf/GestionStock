@@ -2,12 +2,6 @@
 
 Application web de gestion de produits et de stocks développée avec **C#**, **ASP.NET Core MVC**, **Entity Framework Core** et **SQLite**. Elle permet de gérer un catalogue de produits et de consulter des indicateurs récapitulatifs du stock.
 
-![Tableau de bord de l’application de gestion de stock](docs/images/dashboard.png)
-
-### Ajouter un produit
-
-![Formulaire d’ajout d’un produit](docs/images/ajouter-produit.png)
-
 ## Fonctionnalités
 
 - **Gestion des produits (CRUD) :** créer, consulter, modifier et supprimer des produits.
@@ -94,4 +88,14 @@ Ouvrez l’adresse locale indiquée dans le terminal. Le port dépend de la conf
 
 ## 📸 Captures d’écran
 
-### Tableau de bord
+<p align="center">
+  <img src="docs/images/dashboard.png" alt="Tableau de bord — GestionStock" width="800">
+  <br><strong>Tableau de bord</strong>
+  <br><em>Vue des indicateurs et du résumé du stock.</em>
+</p>
+
+<p align="center">
+  <img src="docs/images/ajouter-produit.png" alt="Ajouter un produit — GestionStock" width="800">
+  <br><strong>Ajouter un produit</strong>
+  <br><em>Formulaire de création d’un produit dans le catalogue.</em>
+</p>
