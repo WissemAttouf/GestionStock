@@ -79,12 +79,6 @@ dotnet run
 
 Ouvrez l’adresse locale indiquée dans le terminal. Le port dépend de la configuration de lancement.
 
-## Auteur
-
-**Wissem Attouf** — Ingénieur logiciel | Développeur Full Stack  
-[GitHub](https://github.com/WissemAttouf) · [LinkedIn](https://www.linkedin.com/in/wissem-attouf-452509226/) · [Portfolio](https://wissem-portfolio.vercel.app/) · [E-mail](mailto:wattouf35@gmail.com)
-
----
 
 ## 📸 Captures d’écran
 
@@ -99,3 +93,12 @@ Ouvrez l’adresse locale indiquée dans le terminal. Le port dépend de la conf
   <br><strong>Ajouter un produit</strong>
   <br><em>Formulaire de création d’un produit dans le catalogue.</em>
 </p>
+
+---
+
+## Auteur
+
+**Wissem Attouf** — Ingénieur logiciel | Développeur Full Stack  
+[GitHub](https://github.com/WissemAttouf) · [LinkedIn](https://www.linkedin.com/in/wissem-attouf-452509226/) · [Portfolio](https://wissem-portfolio.vercel.app/) · [E-mail](mailto:wattouf35@gmail.com)
+
+---
