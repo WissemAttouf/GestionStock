@@ -1,8 +1,8 @@
-# Gestion de stock — Application ASP.NET Core MVC
+# 💻 Gestion de stock — Application ASP.NET Core MVC
 
 Application web de gestion de produits et de stocks développée avec **C#**, **ASP.NET Core MVC**, **Entity Framework Core** et **SQLite**. Elle permet de gérer un catalogue de produits et de consulter des indicateurs récapitulatifs du stock.
 
-## Fonctionnalités
+## ✨ Fonctionnalités
 
 - **Gestion des produits (CRUD) :** créer, consulter, modifier et supprimer des produits.
 - **Recherche :** filtrer les produits par nom, description ou catégorie.
@@ -15,7 +15,7 @@ Application web de gestion de produits et de stocks développée avec **C#**, **
 
 > **Périmètre actuel :** le dépôt porte sur la gestion des produits et des quantités. L’authentification, les rôles, les fournisseurs, les commandes d’achat, les ventes et une API REST dédiée ne sont pas documentés comme fonctionnalités disponibles.
 
-## Technologies
+## 🛠️ Technologies
 
 | Technologie | Utilisation |
 |---|---|
@@ -30,7 +30,7 @@ Application web de gestion de produits et de stocks développée avec **C#**, **
 
 Le projet `FirstProject.csproj` cible `net9.0`. Bien qu’un fournisseur SQL Server figure également parmi les dépendances, la configuration de démarrage documentée utilise SQLite.
 
-## Pages principales
+## 🧭 Pages principales
 
 | Route | Description |
 |---|---|
@@ -41,7 +41,7 @@ Le projet `FirstProject.csproj` cible `net9.0`. Bien qu’un fournisseur SQL Ser
 | `/Products/Edit/{id}` | Modification |
 | `/Products/Delete/{id}` | Confirmation de suppression |
 
-## Structure du projet
+## 🗂️ Structure du projet
 
 ```text
 GestionStock/
@@ -62,13 +62,13 @@ GestionStock/
 └── FirstProject.sln
 ```
 
-## Installation et lancement
+## ⚙️ Installation et lancement
 
-### Prérequis
+### ⚙️ Prérequis
 - SDK .NET 9
 - Git
 
-### Étapes
+### ⚙️ Étapes
 
 ```bash
 git clone https://github.com/WissemAttouf/GestionStock.git
@@ -96,7 +96,7 @@ Ouvrez l’adresse locale indiquée dans le terminal. Le port dépend de la conf
 
 ---
 
-## Auteur
+## 👨‍💻 Auteur
 
 **Wissem Attouf** — Ingénieur logiciel | Développeur Full Stack  
 [GitHub](https://github.com/WissemAttouf) · [LinkedIn](https://www.linkedin.com/in/wissem-attouf-452509226/) · [Portfolio](https://wissem-portfolio.vercel.app/) · [E-mail](mailto:wattouf35@gmail.com)
