@@ -2,10 +2,6 @@
 
 Application web de gestion de produits et de stocks développée avec **C#**, **ASP.NET Core MVC**, **Entity Framework Core** et **SQLite**. Elle permet de gérer un catalogue de produits et de consulter des indicateurs récapitulatifs du stock.
 
-## 📸 Captures d’écran
-
-### Tableau de bord
-
 ![Tableau de bord de l’application de gestion de stock](docs/images/dashboard.png)
 
 ### Ajouter un produit
@@ -93,3 +89,9 @@ Ouvrez l’adresse locale indiquée dans le terminal. Le port dépend de la conf
 
 **Wissem Attouf** — Ingénieur logiciel | Développeur Full Stack  
 [GitHub](https://github.com/WissemAttouf) · [LinkedIn](https://www.linkedin.com/in/wissem-attouf-452509226/) · [Portfolio](https://wissem-portfolio.vercel.app/) · [E-mail](mailto:wattouf35@gmail.com)
+
+---
+
+## 📸 Captures d’écran
+
+### Tableau de bord
