@@ -1,6 +1,14 @@
 # 💻 Gestion de stock — Application ASP.NET Core MVC
 
-Application web de gestion de produits et de stocks développée avec **C#**, **ASP.NET Core MVC**, **Entity Framework Core** et **SQLite**. Elle permet de gérer un catalogue de produits et de consulter des indicateurs récapitulatifs du stock.
+Application web de gestion de produits et de stocks développée avec **C#**, **.NET 9**, **ASP.NET Core MVC**, **Entity Framework Core** et **SQLite**. Elle permet de gérer un catalogue de produits, de rechercher des articles et de consulter des indicateurs récapitulatifs du stock.
+
+> **Résumé pour recruteurs :** projet de développement web avec l’écosystème .NET, comprenant des opérations CRUD, l’accès aux données avec Entity Framework Core et une interface de gestion du stock.
+
+## 🚀 Démonstration
+
+[Ouvrir l’application déployée](https://gestionstock-p21n.onrender.com/)
+
+> La disponibilité du service hébergé peut varier.
 
 ## ✨ Fonctionnalités
 
